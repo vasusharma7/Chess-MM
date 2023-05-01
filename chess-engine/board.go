@@ -39,8 +39,8 @@ func (board *Board) initialise() {
 	board[0][0] = &Rook{Self}
 	board[0][1] = &Knight{Self}
 	board[0][2] = &Bishop{Self}
-	board[0][3] = &King{Self}
-	board[0][4] = &Queen{Self}
+	board[0][3] = &Queen{Self}
+	board[0][4] = &King{Self}
 	board[0][5] = &Bishop{Self}
 	board[0][6] = &Knight{Self}
 	board[0][7] = &Rook{Self}
@@ -53,8 +53,8 @@ func (board *Board) initialise() {
 	board[7][0] = &Rook{User}
 	board[7][1] = &Knight{User}
 	board[7][2] = &Bishop{User}
-	board[7][3] = &King{User}
-	board[7][4] = &Queen{User}
+	board[7][3] = &Queen{User}
+	board[7][4] = &King{User}
 	board[7][5] = &Bishop{User}
 	board[7][6] = &Knight{User}
 	board[7][7] = &Rook{User}
@@ -69,7 +69,7 @@ func (board *Board) initialise() {
 }
 
 func (board Board) print() {
-	fmt.Print("\033[H\033[2J")
+	//fmt.Print("\033[H\033[2J")
 	fmt.Println()
 	for i := 0; i < len(board); i++ {
 		fmt.Printf("%d |\t", 8-i)

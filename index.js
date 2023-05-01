@@ -1,4 +1,4 @@
-const server = "http://127.0.0.1:8080/"
+const server = "https://sdscoep.club/engine/api/"
 const focus = { row: -1, col: -1 }
 let gameId = new Date().getTime()
 
@@ -114,30 +114,41 @@ const play = async (from, to) => {
             switch (resp.status) {
                 case 406: //not acceptable
                     makeMove(to, from)
-                    alert("Not a valid move")
+                    alert(await resp.text())
                     break
                 case 206: //non authoritative info
-                    makeMove(to, from)
-                    alert("No Element Found")
+                    makeMove(to, from)	
+                    alert(await resp.text())
                     break
                 case 403: /// forbidden
                     makeMove(to, from)
-                    alert("You cannot move here, your king will be in check position")
+                    alert(await resp.text())
                     break
-                case 204: //no content
-                    alert("No moves left")
+                case 204: //no content	
+                    alert(await resp.text())
                     break
                 case 400:
                     alert("Oops something went wrong in the request")
                     break
                 case 200: //OK
                     const data = await resp.json()
-                    // console.log(data)
                     board = data['Board']
                     paintBoard(data['Board'])
-                    return
+		    setTimeout(()=>{
+				if(data['Check']){
+				alert("CHECK !")
+			    }
+			},500);
+
+		    setTimeout(()=>{
+				if(data['Mate']){
+	 			alert("And Mate :| ");
+			    }
+			},500);
+		    
+                    break
                 default:
-                    alert("Cannot handle unexpected response")
+                    alert("Oops ! Cannot handle unexpected response")
             }
         }).catch(err => {
             console.log(err);

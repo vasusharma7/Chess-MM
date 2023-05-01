@@ -31,8 +31,8 @@ type MoveResponseBody struct {
 func play(w http.ResponseWriter, r *http.Request) {
 	enableCors(&w)
 	w.Header().Set("Content-Type", "application/json")
-	if r.URL.Path != "/" {
-		fmt.Println(r.URL.Path)
+	fmt.Println(r.URL.Path)
+	if r.URL.Path != "/engine/api/" {
 		http.Error(w, "404 not found.", http.StatusNotFound)
 		return
 	}
@@ -50,6 +50,7 @@ func play(w http.ResponseWriter, r *http.Request) {
 		board.initialise()
 		gameCache[id] = board
 	}
+	board.print()
 
 	switch r.Method {
 	case "GET":

@@ -7,7 +7,7 @@
 }
 
 #title img {
-    max-width: 90vw;
+    max-width: 95vw;
 }
 
 #chess-container {
@@ -20,11 +20,11 @@ table {
 }
 
 table img {
-    max-width: 7vw;
+    max-width: 5vw;
 }
 
 .square {
-    max-width: 10vw;
+    max-width: 7.5vw;
 }
 
 table td .piece {
