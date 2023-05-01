@@ -1,0 +1,104 @@
+<html>
+
+<head>
+    <title>Chess Engine</title>
+    <link rel="stylesheet" href="index.css">
+
+</head>
+
+<body>
+    <div id="title">
+        <h2>Chess Engine</h2>
+        <img style="visibility: hidden;" id="loader" src=" 1x/loader.gif" alt="loading" />
+    </div>
+    <div id="chess-container">
+        <table>
+            <tr id="0">
+                <td id="00">
+                    <img class="square" src="1x/square gray light _1x.png" alt="light square" />
+                </td>
+                <td id="01"><img class="square" src="1x/square gray dark _1x.png" alt="dark square" /></td>
+                <td id="02"><img class="square" src="1x/square gray light _1x.png" alt="light square" /></td>
+                <td id="03"><img class="square" src="1x/square gray dark _1x.png" alt="dark square" /></td>
+                <td id="04"><img class="square" src="1x/square gray light _1x.png" alt="light square" /></td>
+                <td id="05"><img class="square" src="1x/square gray dark _1x.png" alt="dark square" /></td>
+                <td id="06"><img class="square" src="1x/square gray light _1x.png" alt="light square" /></td>
+                <td id="07"><img class="square" src="1x/square gray dark _1x.png" alt="dark square" /></td>
+            </tr>
+            <tr id="1">
+                <td id="10"><img class="square" src="1x/square gray dark _1x.png" alt="dark square" /></td>
+                <td id="11"><img class="square" src="1x/square gray light _1x.png" alt="light square" /></td>
+                <td id="12"><img class="square" src="1x/square gray dark _1x.png" alt="dark square" /></td>
+                <td id="13"><img class="square" src="1x/square gray light _1x.png" alt="light square" /></td>
+                <td id="14"><img class="square" src="1x/square gray dark _1x.png" alt="dark square" /></td>
+                <td id="15"><img class="square" src="1x/square gray light _1x.png" alt="light square" /></td>
+                <td id="16"><img class="square" src="1x/square gray dark _1x.png" alt="dark square" /></td>
+                <td id="17"><img class="square" src="1x/square gray light _1x.png" alt="light square" /></td>
+
+            </tr>
+            <tr>
+                <td id="20"><img class="square" src="1x/square gray light _1x.png" alt="light square" /></td>
+                <td id="21"><img class="square" src="1x/square gray dark _1x.png" alt="dark square" /></td>
+                <td id="22"><img class="square" src="1x/square gray light _1x.png" alt="light square" /></td>
+                <td id="23"><img class="square" src="1x/square gray dark _1x.png" alt="dark square" /></td>
+                <td id="24"><img class="square" src="1x/square gray light _1x.png" alt="light square" /></td>
+                <td id="25"><img class="square" src="1x/square gray dark _1x.png" alt="dark square" /></td>
+                <td id="26"><img class="square" src="1x/square gray light _1x.png" alt="light square" /></td>
+                <td id="27"><img class="square" src="1x/square gray dark _1x.png" alt="dark square" /></td>
+            </tr>
+            <tr id="3">
+                <td id="30"><img class="square" src="1x/square gray dark _1x.png" alt="dark square" /></td>
+                <td id="31"><img class="square" src="1x/square gray light _1x.png" alt="light square" /></td>
+                <td id="32"><img class="square" src="1x/square gray dark _1x.png" alt="dark square" /></td>
+                <td id="33"><img class="square" src="1x/square gray light _1x.png" alt="light square" /></td>
+                <td id="34"><img class="square" src="1x/square gray dark _1x.png" alt="dark square" /></td>
+                <td id="35"><img class="square" src="1x/square gray light _1x.png" alt="light square" /></td>
+                <td id="36"><img class="square" src="1x/square gray dark _1x.png" alt="dark square" /></td>
+                <td id="37"><img class="square" src="1x/square gray light _1x.png" alt="light square" /></td>
+            </tr>
+            <tr id="4">
+                <td id="40"><img class="square" src="1x/square gray light _1x.png" alt="light square" /></td>
+                <td id="41"><img class="square" src="1x/square gray dark _1x.png" alt="dark square" /></td>
+                <td id="42"><img class="square" src="1x/square gray light _1x.png" alt="light square" /></td>
+                <td id="43"><img class="square" src="1x/square gray dark _1x.png" alt="dark square" /></td>
+                <td id="44"><img class="square" src="1x/square gray light _1x.png" alt="light square" /></td>
+                <td id="45"><img class="square" src="1x/square gray dark _1x.png" alt="dark square" /></td>
+                <td id="46"><img class="square" src="1x/square gray light _1x.png" alt="light square" /></td>
+                <td id="47"><img class="square" src="1x/square gray dark _1x.png" alt="dark square" /></td>
+            </tr>
+            <tr id="5">
+                <td id="50"><img class="square" src="1x/square gray dark _1x.png" alt="dark square" /></td>
+                <td id="51"><img class="square" src="1x/square gray light _1x.png" alt="light square" /></td>
+                <td id="52"><img class="square" src="1x/square gray dark _1x.png" alt="dark square" /></td>
+                <td id="53"><img class="square" src="1x/square gray light _1x.png" alt="light square" /></td>
+                <td id="54"><img class="square" src="1x/square gray dark _1x.png" alt="dark square" /></td>
+                <td id="55"><img class="square" src="1x/square gray light _1x.png" alt="light square" /></td>
+                <td id="56"><img class="square" src="1x/square gray dark _1x.png" alt="dark square" /></td>
+                <td id="57"><img class="square" src="1x/square gray light _1x.png" alt="light square" /></td>
+            </tr>
+            <tr id="6">
+                <td id="60"><img class="square" src="1x/square gray light _1x.png" alt="light square" /></td>
+                <td id="61"><img class="square" src="1x/square gray dark _1x.png" alt="dark square" /></td>
+                <td id="62"><img class="square" src="1x/square gray light _1x.png" alt="light square" /></td>
+                <td id="63"><img class="square" src="1x/square gray dark _1x.png" alt="dark square" /></td>
+                <td id="64"><img class="square" src="1x/square gray light _1x.png" alt="light square" /></td>
+                <td id="65"><img class="square" src="1x/square gray dark _1x.png" alt="dark square" /></td>
+                <td id="66"><img class="square" src="1x/square gray light _1x.png" alt="light square" /></td>
+                <td id="67"><img class="square" src="1x/square gray dark _1x.png" alt="dark square" /></td>
+            </tr>
+            <tr id="7">
+                <td id="70"><img class="square" src="1x/square gray dark _1x.png" alt="dark square" /></td>
+                <td id="71"> <img class="square" src="1x/square gray light _1x.png" alt="light square" /></td>
+                <td id="72"><img class="square" src="1x/square gray dark _1x.png" alt="dark square" /></td>
+                <td id="73"><img class="square" src="1x/square gray light _1x.png" alt="light square" /></td>
+                <td id="74"><img class="square" src="1x/square gray dark _1x.png" alt="dark square" /></td>
+                <td id="75"><img class="square" src="1x/square gray light _1x.png" alt="light square" /></td>
+                <td id="76"><img class="square" src="1x/square gray dark _1x.png" alt="dark square" /></td>
+                <td id="77"><img class="square" src="1x/square gray light _1x.png" alt="light square" /></td>
+            </tr>
+        </table>
+    </div>
+    <script src="index.js"></script>
+</body>
+
+</html>
