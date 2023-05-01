@@ -165,13 +165,23 @@ func (board Board) check(player Color) int {
 		return 1
 	}
 
-	frDiagonalPos := getLastElement(board.getBLDiagonal(pos))
+	frDiagonalPos := getLastElement(board.getFRDiagonal(pos))
 	if board.checkDialogalDanger(frDiagonalPos, opponent) {
 		return 1
 	}
 
 	ltPos := getLastElement(board.getLtMoves(pos))
 	if board.checkAxialDanger(ltPos, opponent) {
+		return 1
+	}
+
+	fwdPos := getLastElement(board.getFwMoves(pos))
+	if board.checkAxialDanger(fwdPos, opponent) {
+		return 1
+	}
+
+	bkPos := getLastElement(board.getBkMoves(pos))
+	if board.checkAxialDanger(bkPos, opponent) {
 		return 1
 	}
 
