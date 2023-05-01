@@ -55,7 +55,7 @@ func miniMax(depth int, tree Tree, player Color,
 		for i := 0; i < len(tree.nodes); i++ {
 			_, _, val := miniMax(depth+1, tree.nodes[i], User, alpha, beta)
 			//experimental - for risk taking
-			if First(tree.board.movePiece(tree.nodes[i].oldPos, tree.nodes[i].newPos)).check(User) == 1 && val > tree.board.evaluate() + 40  {
+			if First(tree.board.movePiece(tree.nodes[i].oldPos, tree.nodes[i].newPos)).check(User) == 1 && val > alpha  {
 				best = val
 				alpha = math.Max(best, alpha)
 				index = i
@@ -82,7 +82,7 @@ func miniMax(depth int, tree Tree, player Color,
 	for i := 0; i < len(tree.nodes); i++ {
 		_, _, val := miniMax(depth+1, tree.nodes[i], Self, alpha, beta)
 		//experimental - for risk taking
-		if First(tree.board.movePiece(tree.nodes[i].oldPos, tree.nodes[i].newPos)).check(Self) == 1 && val < tree.board.evaluate() -  40 {
+		if First(tree.board.movePiece(tree.nodes[i].oldPos, tree.nodes[i].newPos)).check(Self) == 1 && val < beta {
 			best = val
 			beta = math.Min(best, beta)
 			index = i
