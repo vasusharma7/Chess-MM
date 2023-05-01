@@ -1,7 +1,7 @@
 const server = "https://sdscoep.club/engine/api/"
 const focus = { row: -1, col: -1 }
 let gameId = new Date().getTime()
-
+let toImgCache = ""
 let board = [["R'", "N'", "B'", "K'", "Q'", "B'", "N'", "R'"],
 ["P'", "P'", "P'", "P'", "P'", "P'", "P'", "P'"],
 ["-", "-", "-", "-", "-", "-", "-", "-"],
@@ -113,15 +113,15 @@ const play = async (from, to) => {
         }).then(async resp => {
             switch (resp.status) {
                 case 406: //not acceptable
-                    makeMove(to, from)
+                    makeMove(to, from,true)
                     alert(await resp.text())
                     break
                 case 206: //non authoritative info
-                    makeMove(to, from)	
+                    makeMove(to, from,true)	
                     alert(await resp.text())
                     break
                 case 403: /// forbidden
-                    makeMove(to, from)
+                    makeMove(to, from,true)
                     alert(await resp.text())
                     break
                 case 204: //no content	
@@ -157,7 +157,7 @@ const play = async (from, to) => {
 
 }
 
-const makeMove = (from, to) => {
+const makeMove = (from, to, revert = false) => {
     console.log(from, to)
     const fromSquare = document.getElementById(`${from.row}${from.col}`)
     const toSquare = document.getElementById(`${to.row}${to.col}`)
@@ -165,9 +165,12 @@ const makeMove = (from, to) => {
     const fromImg = fromSquare.getElementsByClassName("piece")[0].src
     const fromBackGround = fromSquare.getElementsByClassName("square")[0].src
     const toBackGround = toSquare.getElementsByClassName("square")[0].src
+	
+    let cache = toSquare.getElementsByClassName("piece")[0]?.src
 
     document.getElementById(`${to.row}${to.col}`).innerHTML = getPieceImage(fromImg) + getSquareImage(toBackGround)
-    document.getElementById(`${from.row}${from.col}`).innerHTML = getSquareImage(fromBackGround)
+    document.getElementById(`${from.row}${from.col}`).innerHTML = ( revert && toImgCache ? getPieceImage(toImgCache): "" ) + getSquareImage(fromBackGround)
+    toImgCache = cache 
 }
 
 const applyFocus = () => {
