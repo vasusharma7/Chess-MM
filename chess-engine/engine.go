@@ -17,7 +17,7 @@ const (
 	// User Piece Color
 	User Color = White
 	// MaxDepth of MiniMax Tree
-	MaxDepth = 4
+	MaxDepth = 5
 	// MAX number
 	MAX = float64(1000)
 	//MIN number
@@ -55,12 +55,12 @@ func miniMax(depth int, tree Tree, player Color,
 		for i := 0; i < len(tree.nodes); i++ {
 			_, _, val := miniMax(depth+1, tree.nodes[i], User, alpha, beta)
 			//experimental - for risk taking
-			if First(tree.board.movePiece(tree.nodes[i].oldPos, tree.nodes[i].newPos)).check(User) == 1 && val > alpha  {
-				best = val
-				alpha = math.Max(best, alpha)
-				index = i
-				break
-			}
+			//if First(tree.board.movePiece(tree.nodes[i].oldPos, tree.nodes[i].newPos)).check(User) == 1 && val > alpha+2  {
+			//	best = val
+			//	alpha = math.Max(best, alpha)
+			//	index = i
+			//	break
+			//}
 			alpha = math.Max(alpha, val)
 			if best < val {
 				best = val
@@ -82,12 +82,12 @@ func miniMax(depth int, tree Tree, player Color,
 	for i := 0; i < len(tree.nodes); i++ {
 		_, _, val := miniMax(depth+1, tree.nodes[i], Self, alpha, beta)
 		//experimental - for risk taking
-		if First(tree.board.movePiece(tree.nodes[i].oldPos, tree.nodes[i].newPos)).check(Self) == 1 && val < beta {
-			best = val
-			beta = math.Min(best, beta)
-			index = i
-			break
-		}
+		//if First(tree.board.movePiece(tree.nodes[i].oldPos, tree.nodes[i].newPos)).check(Self) == 1 && val < beta-2 {
+		//	best = val
+		//	beta = math.Min(best, beta)
+		//	index = i
+		//	break
+		//}
 
 		beta = math.Min(beta, val)
 		if best > val {
@@ -134,7 +134,7 @@ func (board Board) evaluate() float64 {
 	knightWt := 3.0 * float64(board.getPieceDiff(reflect.TypeOf(&Knight{})))
 	pawnWt := 1.0 * float64(board.getPieceDiff(reflect.TypeOf(&Pawn{})))
 	checkWt := 100.0 * float64((board.check(User) - board.check(Self)))
-	mobility := 0.1 * float64(board.check(Self)-board.check(User))
+	mobility := 0.1 * float64(len(board.generateNodes(Self))-len(board.generateNodes(User)))
 	return float64(kingWt + queenWt + rookWt + bishopWt + knightWt + pawnWt + mobility + checkWt)
 }
 
