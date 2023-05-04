@@ -133,7 +133,7 @@ func (board Board) evaluate() float64 {
 	bishopWt := 3.0 * float64(board.getPieceDiff(reflect.TypeOf(&Bishop{})))
 	knightWt := 3.0 * float64(board.getPieceDiff(reflect.TypeOf(&Knight{})))
 	pawnWt := 1.0 * float64(board.getPieceDiff(reflect.TypeOf(&Pawn{})))
-	checkWt := 100.0 * float64((board.check(User) - board.check(Self)))
+	checkWt := 8 * float64((board.check(User) - board.check(Self)))
 	mobility := 0.1 * float64(len(board.generateNodes(Self))-len(board.generateNodes(User)))
 	return float64(kingWt + queenWt + rookWt + bishopWt + knightWt + pawnWt + mobility + checkWt)
 }
