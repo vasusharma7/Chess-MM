@@ -11,6 +11,8 @@ type Piece interface {
 	String() string
 
 	getPlayer() Color
+
+	Index() int
 }
 
 // Empty board state
@@ -90,6 +92,52 @@ func (p Pawn) String() string {
 		return "P'"
 	}
 	return "P"
+}
+
+func (Empty) Index() int {
+	return -1
+}
+
+func (p Knight) Index() int {
+	if p.color == Self {
+		return 0
+	}
+	return 6
+}
+
+func (p King) Index() int {
+	if p.color == Self {
+		return 1
+	}
+	return 7
+}
+
+func (p Queen) Index() int {
+	if p.color == Self {
+		return 2
+	}
+	return 8
+}
+
+func (p Rook) Index() int {
+	if p.color == Self {
+		return 3
+	}
+	return 9
+}
+
+func (p Bishop) Index() int {
+	if p.color == Self {
+		return 4
+	}
+	return 10
+}
+
+func (p Pawn) Index() int {
+	if p.color == Self {
+		return 5
+	}
+	return 11
 }
 
 func (p Empty) getPlayer() Color {
@@ -286,3 +334,4 @@ func (p Knight) getAllMoves(board Board, loc Position) ([]Position, error) {
 func (board Board) isValidMove(against Color, pos Position) bool {
 	return board[pos.row][pos.col].getPlayer() == Undefined || board[pos.row][pos.col].getPlayer() == against
 }
+

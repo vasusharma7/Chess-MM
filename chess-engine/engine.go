@@ -1,6 +1,3 @@
-/*
-Contains chess engine related methods and types.
-*/
 package main
 
 import (
@@ -8,7 +5,11 @@ import (
 	"math"
 	"math/rand"
 	"reflect"
+	"time"
+	"sync"
 )
+
+var mutex = &sync.Mutex{}
 
 // TODO: Check and protect from CHECK to King.
 const (
@@ -35,12 +36,42 @@ type Tree struct {
 
 /** Zorbist hashing here*/
 
-// var cache [MaxDepth]map[int]Tree
+var cache = initCache()
 
-// var zorbistTable [8][8][12]int
-// func hash(board Board) int {
+var zorbistTable = initZorbist()
 
-// }
+func initCache() (cache [MaxDepth]map[int]float64) {
+	for i := 0; i < MaxDepth; i++ {
+		cache[i] = make(map[int]float64)
+	}
+	return
+}
+
+func initZorbist() (zorbistTable [8][8][12]int) {
+
+	rand.Seed(time.Now().UnixNano())
+	for i := 0; i < 8; i++ {
+		for j := 0; j < 8; j++ {
+			for k := 0; k < 12; k++ {
+				zorbistTable[i][j][k] = rand.Intn(int(math.Pow(2, 31)))
+			}
+		}
+	}
+	return
+}
+
+func (board Board) hash() int {
+	hash := 0
+	for i := 0; i < 8; i++ {
+		for j := 0; j < 8; j++ {
+			if board[i][j].Index() != -1 {
+
+				hash ^= zorbistTable[i][j][board[i][j].Index()]
+			}
+		}
+	}
+	return hash
+}
 
 func miniMax(depth int, tree Tree, player Color,
 	alpha float64, beta float64) (oldPos Position, newPos Position, score float64) {
@@ -53,7 +84,21 @@ func miniMax(depth int, tree Tree, player Color,
 		index := -1
 		tree.nodes = append(tree.nodes, tree.board.generateNodes(Self)...)
 		for i := 0; i < len(tree.nodes); i++ {
-			_, _, val := miniMax(depth+1, tree.nodes[i], User, alpha, beta)
+			var val float64
+
+			mutex.Lock()
+			cachedVal, hit := cache[depth][tree.nodes[i].board.hash()]
+			mutex.Unlock()
+			if hit == true {
+				val = cachedVal
+				//fmt.Println("Cache hit max")
+			} else {
+				_, _, newVal := miniMax(depth+1, tree.nodes[i], User, alpha, beta)
+				val = newVal
+				mutex.Lock()
+				cache[depth][tree.nodes[i].board.hash()] = newVal
+				mutex.Unlock()
+			}
 			//experimental - for risk taking
 			//if First(tree.board.movePiece(tree.nodes[i].oldPos, tree.nodes[i].newPos)).check(User) == 1 && val > alpha+2  {
 			//	best = val
@@ -72,7 +117,7 @@ func miniMax(depth int, tree Tree, player Color,
 			}
 		}
 		if index == -1 {
-			return tree.oldPos, tree.newPos, MAX
+			return tree.oldPos, tree.newPos, MIN
 		}
 		return tree.nodes[index].oldPos, tree.nodes[index].newPos, best
 	}
@@ -80,7 +125,20 @@ func miniMax(depth int, tree Tree, player Color,
 	index := -1
 	tree.nodes = append(tree.nodes, tree.board.generateNodes(User)...)
 	for i := 0; i < len(tree.nodes); i++ {
-		_, _, val := miniMax(depth+1, tree.nodes[i], Self, alpha, beta)
+		var val float64
+		mutex.Lock()
+		cachedVal, hit := cache[depth][tree.nodes[i].board.hash()]
+		mutex.Unlock()
+		if  hit == true {
+			val = cachedVal
+			//fmt.Println("Cache hit mini")
+		} else {
+			_, _, newVal := miniMax(depth+1, tree.nodes[i], Self, alpha, beta)
+			val = newVal
+			mutex.Lock()
+			cache[depth][tree.nodes[i].board.hash()] = newVal
+			mutex.Unlock()
+		}
 		//experimental - for risk taking
 		//if First(tree.board.movePiece(tree.nodes[i].oldPos, tree.nodes[i].newPos)).check(Self) == 1 && val < beta-2 {
 		//	best = val
@@ -99,7 +157,8 @@ func miniMax(depth int, tree Tree, player Color,
 		}
 	}
 	if index == -1 {
-		return tree.oldPos, tree.newPos, MIN
+		//fmt.Println("Index = -1")
+		return tree.oldPos, tree.newPos, MAX
 	}
 	return tree.nodes[index].oldPos, tree.nodes[index].newPos, best
 }
@@ -134,8 +193,8 @@ func (board Board) evaluate() float64 {
 	knightWt := 3.0 * float64(board.getPieceDiff(reflect.TypeOf(&Knight{})))
 	pawnWt := 1.0 * float64(board.getPieceDiff(reflect.TypeOf(&Pawn{})))
 	checkWt := 8 * float64((board.check(User) - board.check(Self)))
-	mobility := 0.1 * float64(len(board.generateNodes(Self))-len(board.generateNodes(User)))
-	return float64(kingWt + queenWt + rookWt + bishopWt + knightWt + pawnWt + mobility + checkWt)
+	//mobility := 0.1 * float64(len(board.generateNodes(Self))-len(board.generateNodes(User)))
+	return float64(kingWt + queenWt + rookWt + bishopWt + knightWt + pawnWt + checkWt)
 }
 
 func (board Board) check(player Color) int {
@@ -297,3 +356,4 @@ func shuffle(array []Tree) []Tree {
 	}
 	return array
 }
+

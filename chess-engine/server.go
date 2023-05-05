@@ -106,9 +106,9 @@ func play(w http.ResponseWriter, r *http.Request) {
 		oldPos, newPos, score = miniMax(0, Tree{board: board}, Self, MIN, MAX)
 		fmt.Println(oldPos, newPos, score)
 
-		if score == MAX {
+		if score == MIN {
 			fmt.Println("Looks like no moves left for me !")
-			http.Error(w, "No moves left", http.StatusNoContent)
+			http.Error(w, "No moves left for me :( ", http.StatusNoContent)
 			return
 		}
 
