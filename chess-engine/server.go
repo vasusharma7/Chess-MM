@@ -32,10 +32,10 @@ func play(w http.ResponseWriter, r *http.Request) {
 	enableCors(&w)
 	w.Header().Set("Content-Type", "application/json")
 	fmt.Println(r.URL.Path)
-	if r.URL.Path != "/engine/api/" {
-		http.Error(w, "404 not found.", http.StatusNotFound)
-		return
-	}
+	// if r.URL.Path != "/engine/api/" {
+	// 	http.Error(w, "404 not found.", http.StatusNotFound)
+	// 	return
+	// }
 	var (
 		oldPos, newPos, fromPos, toPos Position
 		score                          float64
