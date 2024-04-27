@@ -1,4 +1,4 @@
-const server = "https://sdscoep.club/engine/api/"
+const server = "https://chess-mm-xtyxpr5tga-uc.a.run.app/"
 const focus = { row: -1, col: -1 }
 let gameId = new Date().getTime()
 let toImgCache = ""
@@ -145,7 +145,6 @@ const play = async (from, to) => {
 	 			alert("And Mate :| ");
 			    }
 			},500);
-		    
                     break
                 default:
                     alert("Oops ! Cannot handle unexpected response")
@@ -204,6 +203,7 @@ const fetchBoard = async () => {
                     paintBoard(data['Board'])
                     return
                 default:
+                    console.log(resp)
                     alert("Cannot handle unexpected response")
             }
         }).catch(err => {
